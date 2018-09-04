@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+service ChatServer {
+     rpc Chat(stream ClientMessage) 
+            returns (stream ServerMessage) { }
+}
+
+message JoinChannel {
+    string channel = 1;
+}
+
+message LeaveChannel {
+    string channel = 1;
+}
+
+message BroadcastSend {
+    string channel = 1;
+    string contents = 2;
+}
+
+message PrivateSend {
+    string channel = 1;
+    string recipient = 2;
+    string contents = 3;
+}
+
+message ClientMessage {
+    string sender = 1;
+    oneof Message {
+        JoinChannel join_channel = 2;
+        LeaveChannel leave_channel = 3;
+        BroadcastSend broadcast_send = 4;
+        PrivateSend private_send = 5;
+    }
+}
+message ServerMessage {
+    string sender = 1;
+    string channel = 2;
+    string contents = 3;
+}
