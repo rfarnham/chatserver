@@ -5,6 +5,10 @@ service ChatServer {
             returns (stream ServerMessage) { }
 }
 
+message Authenticate {
+    string sender = 1;
+}
+
 message JoinChannel {
     string channel = 1;
 }
@@ -25,8 +29,8 @@ message PrivateSend {
 }
 
 message ClientMessage {
-    string sender = 1;
     oneof Message {
+        Authenticate Authenticate = 1;
         JoinChannel join_channel = 2;
         LeaveChannel leave_channel = 3;
         BroadcastSend broadcast_send = 4;
